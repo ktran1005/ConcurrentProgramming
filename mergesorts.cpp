@@ -41,20 +41,33 @@ void mergesort(int a[], int start,int end) {
 	}
 }
 
-void mergeAllSections(int a[], int startIndexes, int stopIndexes, int numThreads) {
+
+void mergeAllSections(int a[],int size ,std::vector <int> startIndexes, std::vector <int> stopIndexes, int numThreads) {
+				for (int i = 0; i < numThreads; i++) {
+								int left = startIndexes[i];
+								std::cout << i << ": left value is: " << left << std::endl;
+								int right = stopIndexes[i];
+								std::cout << i << ": right value is: " << right << std::endl;
+								int middle = left + (right - left) / 2;
+								merge(a, left, middle, right);
+				}
+			//	if (numThreads / 2 >= 1) {
+			//					mergeAllSections(a, size, startIndexes, stopIndexes, numThreads);
+			//	}
 
 }
 
+
 void tmergesort(int a[], int size, int numThreads) {
 	if (numThreads == 1) {
-		mergesort(a, 0, 8);
+		//mergesort(a, 0, sizeof(a)/sizeof(int) - 1);
 		return;
 	}
 
 	std::vector <int> start_idx, stop_idx;
-	std::thread *T = new std::thread[numThreads];
 	std::vector <std::thread> threads;
 	int number_per_thread = size / numThreads;
+	std::cout << "Number per threads: " << number_per_thread << std::endl;
 	for (int i=0; i < numThreads; i++) {
 		int start = i * (number_per_thread);
 		int end = (i + 1) * (number_per_thread) - 1;
@@ -62,18 +75,31 @@ void tmergesort(int a[], int size, int numThreads) {
 		stop_idx.push_back(end);
 		threads.push_back(std::thread(mergesort, a, start, end));
 	}
+  
+	for (int f:start_idx) {
+				std::cout << f << " ";
+	}
+  std::cout <<std::endl;
+	for (int a:stop_idx) {
+				std::cout << a << " ";
 
+	}
+  std::cout << std::endl; 
 	for (int i=0; i < numThreads;i++) {
 		threads[i].join();
 	}
 
+  //mergeAllSections(a, size ,start_idx, stop_idx, numThreads);
+
 }
 
+				
 
 
 int main() {
-	int a[] = {5, 9, 1, 3, 4, 6, 6, 3,2};
+	int a[] = {5, 9, 1, 8, 4, 6, 6, 3};
 	mergesort(a, 0 ,sizeof(a)/sizeof(int) - 1);
+	//tmergesort(a, sizeof(a)/sizeof(int)-1,2);
 	for (int f:a) {
 		std::cout << f << " ";
 	}
