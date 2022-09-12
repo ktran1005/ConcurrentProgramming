@@ -66,7 +66,7 @@ void mergeAllSections(int a[],int size ,std::vector <int> startIndexes, std::vec
 
 void tmergesort(int a[], int size, int numThreads) {
 	if (numThreads == 1) {
-	//	mergesort(a, sizeof(a)/sizeof(int) - 1);
+		mergesort(a, size - 1);
 		return;
 	}
 
@@ -75,11 +75,15 @@ void tmergesort(int a[], int size, int numThreads) {
 	int number_per_thread = size / numThreads;
 	std::cout << "Number per threads: " << number_per_thread << std::endl;
 	for (int i=0; i < numThreads; i++) {
-		int start = i * (number_per_thread);
-		int end = (i + 1) * (number_per_thread) - 1;
+		int start = i * number_per_thread;
+		int end = (i + 1) * number_per_thread - 1;
 		start_idx.push_back(start);
 		stop_idx.push_back(end);
-		threads.push_back(std::thread(msort, a, start, end));
+	//	threads.push_back(std::thread(msort, a, start, end));
+	}
+
+	for (int i = 0; i < numThreads; i++) {
+		threads.push_back(std::thread(msort,a, start_idx[i], stop_idx[i]));
 	}
   
 	for (int f:start_idx) {
@@ -104,9 +108,7 @@ void tmergesort(int a[], int size, int numThreads) {
 
 int main() {
 	int a[] = {5, 9, 1, 8, 4, 6, 6, 3, 7, 2};
-//	mergesort(a, 0 ,sizeof(a)/sizeof(int) - 1);
-	tmergesort(a, sizeof(a)/sizeof(int), 2);
-	//mergesort(a, sizeof(a)/sizeof(int) - 1);
+	tmergesort(a, sizeof(a)/sizeof(int), 3);
 	for (int f:a) {
 		std::cout << f << " ";
 	}
