@@ -2,7 +2,7 @@
 #include <vector>
 #include <thread>
 
-int binarySearch(int target, std::vector<int> &a, int start, int stop) {
+int binarySearch(int target, int a[], int start, int stop) {
 	int low = start;
 	int high = stop;
 	while (low < high) {
@@ -21,7 +21,7 @@ int binarySearch(int target, std::vector<int> &a, int start, int stop) {
 	return high;
 }
 
-void merge(std::vector<int> &a, int start,int mid ,int end) {
+void merge(int a[], int start,int mid ,int end) {
 	std::vector <int> b1, b2;
 	for (int i = start; i <= mid; i++) {
 		b1.push_back(a[i]);
@@ -49,7 +49,7 @@ void merge(std::vector<int> &a, int start,int mid ,int end) {
 	}
 }
 
-void msort(std::vector<int> &a, int start,int end) {
+void msort(int a[], int start,int end) {
 	
 	if (start < end) {
 		int mid = (start + end)/2;
@@ -59,18 +59,19 @@ void msort(std::vector<int> &a, int start,int end) {
 	}
 }
 
-void mergesort(std::vector<int> &a, int size) {
+void mergesort(int a[], int size) {
 	msort(a, 0, size);
 
 }
-void mergeAllSections(std::vector <int> &a,int size ,std::vector <int> startIndexes, std::vector <int> stopIndexes, int numThreads) {
-	/*for (int i = 0; i < numThreads; i++) {
-		int left = startIndexes[i];
-		int right = stopIndexes[;
-		int middle = left + (right - left) / 2;
-		merge(a, left, middle, right);
-		msort(a, left, right);
-	}*/
+
+void mergeAllSections(int a[],int size ,std::vector <int> startIndexes, std::vector <int> stopIndexes, int numThreads) {
+	//for (int i = 0; i < numThreads; i++) {
+	//	int left = startIndexes[i];
+	//	int right = stopIndexes[;
+	//	int middle = left + (right - left) / 2;
+	//	merge(a, left, middle, right);
+	//	msort(a, left, right);
+	//}
 	std::vector<int> temp1, temp2;
 
 	int n1 = (stopIndexes[0] - startIndexes[0]) + 1;
@@ -105,7 +106,7 @@ void mergeAllSections(std::vector <int> &a,int size ,std::vector <int> startInde
 }
 
 
-void tmergesort(std::vector<int> &a, int size, int numThreads) {
+void tmergesort(int a[], int size, int numThreads) {
 	if (numThreads == 1) {
 		mergesort(a, size - 1);
 		return;
@@ -113,7 +114,6 @@ void tmergesort(std::vector<int> &a, int size, int numThreads) {
 
 	std::vector <int> start_idx, stop_idx;
 	std::vector <std::thread> threads;
-	std::thread* myThreads = new std::thread[numThreads];
 	int number_per_thread = size / numThreads;
 	std::cout << "Number per threads: " << number_per_thread << std::endl;
 	for (int i=0; i < numThreads; i++) {
@@ -124,7 +124,7 @@ void tmergesort(std::vector<int> &a, int size, int numThreads) {
 	}
 
 	for (int i = 0; i < numThreads; i++) {
-		myThreads[i] = std::thread(msort,std::ref(a), start_idx[i], stop_idx[i]);
+		threads.push_back(std::thread(msort,a, start_idx[i], stop_idx[i]));
 	}
   
 	for (int f:start_idx) {
@@ -140,7 +140,7 @@ void tmergesort(std::vector<int> &a, int size, int numThreads) {
 		threads[i].join();
 	}
 
-    //mergeAllSections(a, size ,start_idx, stop_idx, numThreads);
+    mergeAllSections(a, size ,start_idx, stop_idx, numThreads);
 
 }
 
@@ -148,17 +148,24 @@ void tmergesort(std::vector<int> &a, int size, int numThreads) {
 
 
 int main() {
-	std::vector<int> a {5, 9, 1, 8, 4, 6, 6, 3, 7, 2};
-	tmergesort(a, a.size(), 2);
-//	mergesort(a, sizeof(a)/sizeof(int));
-	for (int f:a) {
-		std::cout << f << " ";
-	}
-	std::cout << "\n";
-	std::cout << a.size() << std::endl;
-	//mergesort(a, 10);
+	int a[] =  {5, 9, 1, 8, 4, 6, 6, 3, 7, 2};
+	
+	tmergesort(a, sizeof(a) / sizeof(int), 2);
+	//mergesort(a, sizeof(a)/sizeof(int));
+	//std::cout << a.size() << std::endl;
+	//mergesort(a, a.size());
 	for (int f:a) {
 		std::cout << f << " ";
 	}
 	std::cout << std::endl;
+	/*
+	int* A =  new int[5];
+	A[0] = 7;
+	A[1] = 8;
+	A[2] = 1;
+	A[3] = 3;
+	A[4] = 7;
+	int temp = binarySearch(2, A, 2, 4);
+	std::cout << temp << std::endl;
+	*/
 }
