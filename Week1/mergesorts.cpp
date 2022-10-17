@@ -72,6 +72,7 @@ void mergeAllSections(std::vector <int> &a,int size ,std::vector <int> startInde
 		msort(a, left, right);
 	}*/
 	std::vector<int> temp1, temp2;
+	std::vector <std::thread> threads;
 
 	int n1 = (stopIndexes[0] - startIndexes[0]) + 1;
 	int n2 = (stopIndexes[1] - startIndexes[1]) + 1;
@@ -94,14 +95,28 @@ void mergeAllSections(std::vector <int> &a,int size ,std::vector <int> startInde
 	for (int j=mid_2+1; j <= stopIndexes[1]; j++)
 		temp2.push_back(a[j]);
 	int* n3 = new int[n1 + n2];
-
 	for (int first=0; first < temp1.size(); first++)
 		std::cout << temp1[first] << " ";
 	std::cout << "\n";
+
 	for (int second=0; second < temp2.size(); second++)
 		std::cout << temp2[second] << " ";
 	std::cout << "\n";
-	//mergesort(temp1, temp1.size());
+
+	/*mergesort(temp1, temp1.size());
+  for (int f= 0; f < temp1.size(); f++) 
+    std::cout << temp1[f] << " ";
+	std::cout << "\n";
+
+	mergesort(temp2, temp2.size());
+	for (int k:temp2)
+    std::cout << k << " ";
+  */
+	for (int i=0; i < numThreads; i++)
+				threads.push_back(std::thread(mergesort, std::ref(temp1), temp1.size()));
+  
+	for (int i=0; i < numThreads; i++)
+				threads[i].join();
 }
 
 
@@ -124,7 +139,8 @@ void tmergesort(std::vector<int> &a, int size, int numThreads) {
 	}
 
 	for (int i = 0; i < numThreads; i++) {
-		myThreads[i] = std::thread(msort,std::ref(a), start_idx[i], stop_idx[i]);
+		//myThreads[i] = std::thread(mergesort,std::ref(a), stop_idx[i] - start_idx[i]);
+   threads.push_back(std::thread(msort,std::ref(a),start_idx[i],stop_idx[i]));
 	}
   
 	for (int f:start_idx) {
@@ -137,10 +153,11 @@ void tmergesort(std::vector<int> &a, int size, int numThreads) {
 	}
     std::cout << std::endl; 
 	for (int i=0; i < numThreads;i++) {
+		//myThreads[i].join();
 		threads[i].join();
 	}
 
-    //mergeAllSections(a, size ,start_idx, stop_idx, numThreads);
+    mergeAllSections(a, size ,start_idx, stop_idx, numThreads);
 
 }
 
@@ -151,11 +168,11 @@ int main() {
 	std::vector<int> a {5, 9, 1, 8, 4, 6, 6, 3, 7, 2};
 	tmergesort(a, a.size(), 2);
 //	mergesort(a, sizeof(a)/sizeof(int));
-	for (int f:a) {
-		std::cout << f << " ";
-	}
+	//for (int f:a) {
+	//	std::cout << f << " ";
+	//}
 	std::cout << "\n";
-	std::cout << a.size() << std::endl;
+	//std::cout << a.size() << std::endl;
 	//mergesort(a, 10);
 	for (int f:a) {
 		std::cout << f << " ";
