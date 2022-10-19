@@ -263,8 +263,8 @@ void tmergesort(int a[], int size, int numThreads) {
 		std::cout << "\n\n";
 		
 		
-		std::cout << "start[0]: " << start_idx[0] << "\n";
-		std::cout << "stop[0]: " << stop_idx[0] << "\n\n";
+		// std::cout << "start[0]: " << start_idx[0] << "\n";
+		// std::cout << "stop[0]: " << stop_idx[0] << "\n\n";
 		for (int i = 0; i < numThreads; i++) {
 			threads[i] = std::thread(mergeAllSections, a, size ,start_idx[i], stop_idx[i], numThreads);
 		}
