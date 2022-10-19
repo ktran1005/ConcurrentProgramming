@@ -67,10 +67,15 @@ void mergesort(int a[], int size) {
 }
 
 void mergeAllSections(int a[],int size ,int startIdx, int stopIdx, int numThreads) {
-	std::thread* threads = new std::thread[32];
+	std::thread* threads = new std::thread[8];
 	int numPerThread = size / numThreads;
 	int start_2 = startIdx + numPerThread;
 	int stop_1 = start_2 - 1;
+
+	std::cout << "start[0]: " << startIdx << "\n";
+	std::cout << "stop[0]: " << stop_1 << "\n";
+	std::cout << "start[1]: " << start_2 << "\n";
+	std::cout << "stop[1]: " << stopIdx << "\n";
 	
 	
 	// int n1 = (stopIndexes[0] - startIndexes[0]) + 1;
@@ -181,7 +186,7 @@ void tmergesort(int a[], int size, int numThreads) {
 		return;
 	}
 
-	std::thread *threads = new std::thread[32];
+	std::thread *threads = new std::thread[8];
 	int number_per_thread = size / numThreads;
 	int* start_idx = new int[number_per_thread]{0};
 	int* stop_idx = new int[number_per_thread]{0};
@@ -209,32 +214,33 @@ void tmergesort(int a[], int size, int numThreads) {
 	for (int i=0; i < numThreads;i++) {
 		threads[i].join();
 	}
-	// std::cout << "start idx: " << " ";
-	// for (int i=0; i < numThreads; i++)
-	// 	std::cout << start_idx[i] << " ";
-	// std::cout << "\n";
+	
 
-	// std::cout << "stop idx: " << " "; 
-	// for (int i=0; i < numThreads; i++)
-	// 	std::cout << stop_idx[i] << " ";
-	// std::cout << "\n";
+	std::cout << "start idx: " << " ";
+	for (int i=0; i < numThreads; i++)
+		std::cout << start_idx[i] << " ";
+	std::cout << "\n";
+
+	std::cout << "stop idx: " << " "; 
+	for (int i=0; i < numThreads; i++)
+		std::cout << stop_idx[i] << " ";
+	std::cout << "\n";
 
 
 	for (int i=0; i < size; i++)
 		std::cout << a[i] << " ";
-	std::cout << "\n";
+	std::cout << "\n\n";
 	
 	//std::cout << "Merge All section starts here" << "\n";
-	while (numThreads != 2) {
+	
+	while (numThreads != 1) {
 		numThreads /= 2;
 		number_per_thread = size / numThreads;
-		int* start_idx = new int[numThreads]{0};
-		int* stop_idx = new int[numThreads]{0};
+		//int* start_idx = new int[numThreads]{0};
+		//int* stop_idx = new int[numThreads]{0};
 		// std::cout << "Number per threads: " << number_per_thread << std::endl;
 		for (int i=0; i < numThreads; i++) {
 			int start = i * number_per_thread;
-			//int end = (i + 1) * number_per_thread - 1;
-		
 			int end;
 			if (i == numThreads-1)
 				end = size -1;
@@ -256,6 +262,9 @@ void tmergesort(int a[], int size, int numThreads) {
 			std::cout << stop_idx[i] << " ";
 		std::cout << "\n\n";
 		
+		
+		std::cout << "start[0]: " << start_idx[0] << "\n";
+		std::cout << "stop[0]: " << stop_idx[0] << "\n\n";
 		for (int i = 0; i < numThreads; i++) {
 			threads[i] = std::thread(mergeAllSections, a, size ,start_idx[i], stop_idx[i], numThreads);
 		}
@@ -266,6 +275,8 @@ void tmergesort(int a[], int size, int numThreads) {
 		
 		// mergeAllSections(a, size ,0, 9, numThreads);
 	}
+	//mergeAllSections(a, size ,0, 3, numThreads);
+	
 }
 
 				
