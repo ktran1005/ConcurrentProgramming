@@ -66,15 +66,36 @@ void mergesort(int a[], int size) {
 
 }
 
-void mergeAllSections(int a[],int size ,int* startIndexes, int* stopIndexes, int numThreads) {
+void mergeAllSections(int a[],int size ,int startIdx, int stopIdx, int numThreads) {
 	std::thread* threads = new std::thread[32];
-	int n1 = (stopIndexes[0] - startIndexes[0]) + 1;
+	int numPerThread = size / numThreads;
+	int start_2 = startIdx + numPerThread;
+	int stop_1 = start_2 - 1;
+	
+	
+	// int n1 = (stopIndexes[0] - startIndexes[0]) + 1;
+	int n1 = (stop_1 - startIdx) + 1;
 	//std::cout << "n1: " << n1 << "\n";
-	int n2 = (stopIndexes[1] - startIndexes[1]) + 1;
+	// int n2 = (stopIndexes[1] - startIndexes[1]) + 1;
+	int n2 = (stopIdx - start_2) + 1; 
 	//std::cout << "n2: " << n2 << "\n";
+	int* startIndexes = new int[2];
+	int* stopIndexes = new int[2];
+	startIndexes[0] = startIdx;
+	startIndexes[1] = start_2;
+	stopIndexes[0] = stop_1;
+	stopIndexes[1] = stopIdx;
+
+	for (int i=0; i < numThreads; i++) {
+		std::cout << startIndexes[i] << " ";
+		std::cout << stopIndexes[i] << " ";
+	}
+	std::cout << "\n";
+
 	if (n1 < n2) {
 		// swap start
-		int temp1 = startIndexes[0];
+		// int temp1 = startIndexes[0];
+		int temp1 = startIdx;
 		startIndexes[0] = startIndexes[1];
 		startIndexes[1] = temp1;
 		// swap end
@@ -93,7 +114,6 @@ void mergeAllSections(int a[],int size ,int* startIndexes, int* stopIndexes, int
 	// std::cout << "\n"; 
 
 	int* n3 = new int[n1+n2]{0};
-	int numPerThread = size / numThreads;
 	int* new_start_idx = new int[numPerThread]{0};
 	int* new_stop_idx = new int[numPerThread]{0};
 
@@ -181,6 +201,7 @@ void tmergesort(int a[], int size, int numThreads) {
 		stop_idx[i] = end;
 	}
 
+
 	for (int i = 0; i < numThreads; i++) {
 		threads[i] = std::thread(msort, a, start_idx[i], stop_idx[i]);
 	}
@@ -188,15 +209,15 @@ void tmergesort(int a[], int size, int numThreads) {
 	for (int i=0; i < numThreads;i++) {
 		threads[i].join();
 	}
-	std::cout << "start idx: " << " ";
-	for (int i=0; i < numThreads; i++)
-		std::cout << start_idx[i] << " ";
-	std::cout << "\n";
+	// std::cout << "start idx: " << " ";
+	// for (int i=0; i < numThreads; i++)
+	// 	std::cout << start_idx[i] << " ";
+	// std::cout << "\n";
 
-	std::cout << "stop idx: " << " "; 
-	for (int i=0; i < numThreads; i++)
-		std::cout << stop_idx[i] << " ";
-	std::cout << "\n";
+	// std::cout << "stop idx: " << " "; 
+	// for (int i=0; i < numThreads; i++)
+	// 	std::cout << stop_idx[i] << " ";
+	// std::cout << "\n";
 
 
 	for (int i=0; i < size; i++)
@@ -204,16 +225,55 @@ void tmergesort(int a[], int size, int numThreads) {
 	std::cout << "\n";
 	
 	//std::cout << "Merge All section starts here" << "\n";
-    mergeAllSections(a, size ,start_idx, stop_idx, numThreads);
+	while (numThreads != 2) {
+		numThreads /= 2;
+		number_per_thread = size / numThreads;
+		int* start_idx = new int[numThreads]{0};
+		int* stop_idx = new int[numThreads]{0};
+		// std::cout << "Number per threads: " << number_per_thread << std::endl;
+		for (int i=0; i < numThreads; i++) {
+			int start = i * number_per_thread;
+			//int end = (i + 1) * number_per_thread - 1;
+		
+			int end;
+			if (i == numThreads-1)
+				end = size -1;
+			else 
+				end = (i + 1) * number_per_thread - 1;
+		
+		
+			start_idx[i] = start;
+			stop_idx[i] = end;
+		}
+		std::cout << "start idx: " << " ";
+		for (int i=0; i < numThreads; i++)
+			std::cout << start_idx[i] << " ";
+		std::cout << "\n";
 
+		std::cout << "stop idx: " << " "; 
+
+		for (int i=0; i < numThreads; i++)
+			std::cout << stop_idx[i] << " ";
+		std::cout << "\n\n";
+		
+		for (int i = 0; i < numThreads; i++) {
+			threads[i] = std::thread(mergeAllSections, a, size ,start_idx[i], stop_idx[i], numThreads);
+		}
+  
+		for (int i=0; i < numThreads;i++) {
+			threads[i].join();
+		}
+		
+		// mergeAllSections(a, size ,0, 9, numThreads);
+	}
 }
 
 				
 
 
 int main() {
-	int a[] =  {5, 9, 1, 8, 4, 6, 6, 3, 7, 2};
-	tmergesort(a, sizeof(a) / sizeof(int),4);
+	int a[] =  {15, 0, 10, 5, 9, 1, 13, 3, 7, 2, 12,8,4,14,11,6};
+	tmergesort(a, sizeof(a) / sizeof(int),8);
 	
 	// int b[] = {15, 5, 10, 3};	
 	// tmergesort(b,sizeof(b)/sizeof(int),2);
