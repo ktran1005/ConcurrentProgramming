@@ -74,12 +74,9 @@ void mergeAllSections(int a[],int size ,int startIdx, int stopIdx, int section) 
 	int stop_1 = start_2 - 1;
 	
 	
-	// int n1 = (stopIndexes[0] - startIndexes[0]) + 1;
+
 	int n1 = (stop_1 - startIdx) + 1;
-	//std::cout << "n1: " << n1 << "\n";
-	// int n2 = (stopIndexes[1] - startIndexes[1]) + 1;
 	int n2 = (stopIdx - start_2) + 1; 
-	//std::cout << "n2: " << n2 << "\n";
 	int* startIndexes = new int[2];
 	int* stopIndexes = new int[2];
 	startIndexes[0] = startIdx;
@@ -87,10 +84,6 @@ void mergeAllSections(int a[],int size ,int startIdx, int stopIdx, int section) 
 	stopIndexes[0] = stop_1;
 	stopIndexes[1] = stopIdx;
 
-	// for (int i=0; i < 2; i++) {
-	// 	std::cout << startIndexes[i] << " <--Start\n";
-	// 	std::cout << stopIndexes[i] << " <--Stop\n";
-	// }
 	std::cout << "\n";
 
 	if (n1 < n2) {
@@ -107,6 +100,8 @@ void mergeAllSections(int a[],int size ,int startIdx, int stopIdx, int section) 
 		int temp3 = n1;
 		n1 = n2;
 		n2 = temp3;
+
+		std::cout << "swap happened" << "\n";
 
 	}
 	// std::cout << "After swap ";
@@ -169,17 +164,25 @@ void mergeAllSections(int a[],int size ,int startIdx, int stopIdx, int section) 
 		new_stop_idx[0] = q3;
 	else
 		new_stop_idx[0] = q3-1;
+	
 	new_start_idx[1] = q3 + 1;
 	new_stop_idx[1] = n1+n2-1;
 
-
+	/*
 	for (int i=0; i < 2; i++) {
 		msort(n3, new_start_idx[i], new_stop_idx[i]); 
 	}
+	*/
+	for (int i=0; i < 2; i++) {
+		threads[i] = std::thread(msort, n3, new_start_idx[i], new_stop_idx[i]);
+	}
 
-	// for (int i=0; i < 2; i++) {
-	// 	threads[i].join();
-	// }
+
+	for (int i=0; i < 2; i++) {
+	 	threads[i].join();
+	}
+
+
 	int index = startIdx;
 	for (int i=0; i < n1+n2; i++){
 		a[index] = n3[i];
@@ -238,6 +241,8 @@ void tmergesort(int a[], int size, int numThreads) {
 		std::cout << a[i] << " ";
 	std::cout << "\n";
 	
+	delete[] start_idx;
+	delete[] stop_idx;
 	std::cout << "Parallel merge section starts here" << "\n";
 	while (numThreads != 1) {
 		numThreads /= 2;
@@ -247,15 +252,13 @@ void tmergesort(int a[], int size, int numThreads) {
 		// std::cout << "Number per threads: " << number_per_thread << std::endl;
 		for (int i=0; i < numThreads; i++) {
 			int start = i * number_per_thread;
-			//int end = (i + 1) * number_per_thread - 1;
-		
 			int end;
 			if (i == numThreads-1)
 				end = size -1;
 			else 
 				end = (i + 1) * number_per_thread - 1;
 		
-		
+
 			start_idx[i] = start;
 			stop_idx[i] = end;
 		}
@@ -274,20 +277,19 @@ void tmergesort(int a[], int size, int numThreads) {
 		for (int i = 0; i < numThreads; i++) {
 			threads[i] = std::thread(mergeAllSections, a, size ,start_idx[i], stop_idx[i], numThreads*2);
 		}
-		std::cout << "Check point 4\n";
+		std::cout << "Check point (next phase)\n";
 		for (int i=0; i < numThreads;i++) {
 			threads[i].join();
 		}
-
-
 		std::cout << "end of a cycle" << std::endl;
 		for (int i=0;i<size;i++) {
 			std::cout << a[i] << ", ";
 		}
 		std::cout << std::endl;
 		
+		delete[] start_idx;
+		delete[] stop_idx;
 	}
-	// mergeAllSections(a, size ,8, 15, 4);
 	
 }
 
@@ -295,26 +297,26 @@ void tmergesort(int a[], int size, int numThreads) {
 
 
 int main() {
-	int a[] =  {15, 0, 10, 5, 9, 1, 13, 3, 7, 2, 12 , 8, 4, 14, 11, 6};
+	//int a[] =  {15, 0, 10, 5, 9, 1, 13, 3, 7, 2, 12 , 8, 4, 14, 11, 6};
 	// int a[] = {0, 5, 10, 15, 1, 3, 9, 13, 2, 7, 8, 12, 4, 6, 11, 14};
 	// int a[] = {1 ,33 ,14 ,14 ,8 ,25 ,4 ,0 ,5 ,4 ,29 ,29 ,6 ,25 ,20 ,23 ,27 ,10 ,22 ,4 ,5 ,3 ,21 ,27 ,26 ,0 ,8 ,7 ,12 ,27 ,0 ,6};
-	tmergesort(a, sizeof(a) / sizeof(int),8);
+	//tmergesort(a, sizeof(a) / sizeof(int),8);
 	
-	// int b[] = {15, 5, 10, 3};	
-	// tmergesort(b,sizeof(b)/sizeof(int),2);
+	int b[] = {15, 5, 10, 3, 7};	
+	tmergesort(b,sizeof(b)/sizeof(int),2);
 	
 	// int c[] = {8,7,1,3};
 	// tmergesort(c, sizeof(c) / sizeof(int), 2);
 	
-	for (int f:a) {
-		std::cout << f << " ";
-	}
-	std::cout << std::endl;
-	
-	// for (int k:b) {
-	// 	std::cout << k << " ";
+	// for (int f:a) {
+	// 	std::cout << f << " ";
 	// }
 	// std::cout << std::endl;
+	
+	for (int k:b) {
+		std::cout << k << " ";
+	}
+	std::cout << std::endl;
 	
 	// for (int l:c) {
 	// 	std::cout << l << " ";
