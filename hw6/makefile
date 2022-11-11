@@ -4,13 +4,17 @@ OBJ=obj
 BIN=bin
 
 
+obj/person.o: src/person.h src/person.cpp
+	[ -d $(OBJ) ] || mkdir -p $(OBJ)
+	${GCC} ${STD} -c -o obj/person.o src/person.cpp
+
 obj/boat.o: src/boat.h src/boat.cpp
 	[ -d $(OBJ) ] || mkdir -p $(OBJ)
 	${GCC} ${STD} -c -o obj/boat.o src/boat.cpp
 
 bin/main: obj/boat.o src/main.cpp
 	[ -d $(BIN) ] || mkdir -p $(BIN)
-	${GCC} ${STD} -o bin/main obj/boat.o src/main.cpp
+	${GCC} ${STD} -o bin/main obj/boat.o obj/person.o src/Tuong_main.cpp
 
 
 run: bin/main

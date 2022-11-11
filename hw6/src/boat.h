@@ -1,12 +1,15 @@
 #ifndef _BOAT_H_
 #define _BOAT_H_
 #include <string>
-
+#include "person.h"
+class Person;
 class Boat{
 public:
     Boat();
     ~Boat();
-    void summaryEvent();
+    void summarizeEvent();
+    void loadPeople(Person* Driver,Person* Passenger);
+    void goToIsland();
 private:
     int numOfTravel;
     int numOfReturn;
@@ -14,6 +17,9 @@ private:
     int numOfChildAdultTrip;
     int numOfOnePersonTrip;
     bool atIsland;
+    Person* driver;
+    Person* passenger;
+
 };
 
 #endif
