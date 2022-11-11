@@ -23,6 +23,7 @@ private:
 	Boat* b;
 	std::mutex* lock;
 	std::condition_variable* condval;
+	int myId;
 
 };
 
