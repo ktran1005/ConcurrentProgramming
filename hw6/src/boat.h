@@ -4,15 +4,16 @@
 
 class Boat{
 public:
+    Boat();
+    ~Boat();
+    void summaryEvent();
+private:
     int numOfTravel;
     int numOfReturn;
     int numOfTwoChildTrip;
     int numOfChildAdultTrip;
     int numOfOnePersonTrip;
     bool atIsland;
-    Boat();
-    ~Boat();
-    void summaryEvent();
 };
 
 #endif
