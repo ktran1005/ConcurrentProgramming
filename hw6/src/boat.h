@@ -2,7 +2,9 @@
 #define _BOAT_H_
 #include <string>
 #include "person.h"
+
 class Person;
+
 class Boat{
 public:
     Boat();
@@ -10,6 +12,8 @@ public:
     void summarizeEvent();
     void loadPeople(Person* Driver,Person* Passenger);
     void goToIsland();
+    int isAvailable();
+    void display(std::string text);
 private:
     int numOfTravel;
     int numOfReturn;
@@ -19,7 +23,6 @@ private:
     bool atIsland;
     Person* driver;
     Person* passenger;
-
 };
 
 #endif

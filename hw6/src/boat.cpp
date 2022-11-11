@@ -1,5 +1,7 @@
 #include <iostream>
 #include "boat.h"
+#include <mutex>
+
 
 Boat::Boat(){
     numOfTravel = 0;
@@ -7,9 +9,9 @@ Boat::Boat(){
     numOfTwoChildTrip = 0;
     numOfChildAdultTrip = 0;
     numOfOnePersonTrip = 0;
-    atIsland = 0;
-    // driver = nullptr;
-    // passenger = nullptr;
+    atIsland = 1;
+    //driver = nullptr;
+    //passenger = nullptr;
 };
 
 void Boat::summarizeEvent(){
@@ -30,8 +32,22 @@ void Boat::loadPeople(Person* Driver,Person* Passenger){
 
 }
 
+int Boat::isAvailable() {
+    if (atIsland && driver == nullptr)
+        return 1;
+    else
+        return 0;
+}
+
+void Boat::display(std::string text) {
+    static std::mutex ioLock;
+    std::lock_guard<std::mutex> lk(ioLock);
+    std::cout << "Child " << text << "travel to mainland\n";
+}
 
 void Boat::goToIsland(){
     std::cout << "Driver: " << driver->getName() << "\n"; 
     std::cout << "Passenger: " << passenger->getName() << "\n"; 
 }
+
+
