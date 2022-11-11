@@ -32,7 +32,7 @@ int main(int argc, char* argv[]){
 	Person* p2 = new Person(0, b, dockLock, dockSignal);
 	myThreads[0] = std::thread([](Person* m){m->run();},p2);
 
-
+	myThreads[0].join();
 	
 	
 	// Boat* b = new Boat();

@@ -42,12 +42,13 @@ int Boat::isAvailable() {
 void Boat::display(std::string text) {
     static std::mutex ioLock;
     std::lock_guard<std::mutex> lk(ioLock);
-    std::cout << "Child " << text << "travel to mainland\n";
+    std::cout << "Child " << text << " travel to mainland\n";
 }
 
 void Boat::goToIsland(){
-    std::cout << "Driver: " << driver->getName() << "\n"; 
-    std::cout << "Passenger: " << passenger->getName() << "\n"; 
+    // std::cout << "Driver: " << driver->getName() << "\n"; 
+    // std::cout << "Passenger: " << passenger->getName() << "\n"; 
+    return;
 }
 
 
