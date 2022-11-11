@@ -39,10 +39,10 @@ int Boat::isAvailable() {
         return 0;
 }
 
-void Boat::display(std::string text) {
+void Boat::display(int id) {
     static std::mutex ioLock;
     std::lock_guard<std::mutex> lk(ioLock);
-    std::cout << "Child " << text << " travel to mainland\n";
+    std::cout << "Child " << id << " travel to mainland\n";
 }
 
 void Boat::goToIsland(){

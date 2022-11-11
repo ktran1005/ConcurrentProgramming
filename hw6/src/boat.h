@@ -13,7 +13,7 @@ public:
     void loadPeople(Person* Driver,Person* Passenger);
     void goToIsland();
     int isAvailable();
-    void display(std::string text);
+    void display(int id);
 private:
     int numOfTravel;
     int numOfReturn;
