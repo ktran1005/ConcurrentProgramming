@@ -34,10 +34,10 @@ int main(int argc, char* argv[]){
 	Boat* b = new Boat();
 	// Boat* c = new Boat();
 	// Person::seatAvailable = 2;
-	Person* p2 = new Person(0, b, dockLock, dockSignal, processed, seatAvailable);
-	Person* p3 = new Person(1, b, dockLock, dockSignal, processed, seatAvailable);
-	Person* p4 = new Person(4, b, dockLock, dockSignal, processed, seatAvailable);
-	Person* p5 = new Person(5, b, dockLock, dockSignal, processed, seatAvailable);
+	Person* p2 = new Person(0, b, dockLock, dockSignal);
+	Person* p3 = new Person(1, b, dockLock, dockSignal);
+	Person* p4 = new Person(4, b, dockLock, dockSignal);
+	Person* p5 = new Person(5, b, dockLock, dockSignal);
 
 	myThreads[0] = std::thread([](Person* m){m->run();},p2);
 	myThreads[1] = std::thread([](Person* m){m->run();},p3);
@@ -51,6 +51,6 @@ int main(int argc, char* argv[]){
 	myThreads[3].join();
 	
 	// Boat* b = new Boat();
-	// b->summarizeEvent();
+	b->summarizeEvent();
 	return 0;
 }

@@ -3,15 +3,13 @@
 
 
 
-Person::Person(int id, Boat* bt, std::mutex* lk, std::condition_variable* cv, bool proc, int num_seats)
+Person::Person(int id, Boat* bt, std::mutex* lk, std::condition_variable* cv)
 {
 	myId = id;
 	b = bt;
-	// trapped=true;
+	trapped=true;
 	lock = lk;
 	condval = cv;
-	processed = proc;
-	seats = num_seats;
 }
 
 // Destructor
@@ -19,13 +17,17 @@ Person::~Person(){}
 
 
 void Person::run() {
-	// while (trapped) {
+	while (trapped) {
 	std::unique_lock<std::mutex> lk(*lock);
 	condval->wait(lk, [this]{
-	 	return seats;});
-	
+	 	return b->isAvailable();});
 	b->display(myId);
-	// printf("Cur seats: %d\n", seats)''
+	b->goToMainland();
+	trapped = false;
+	// condval->notify_one();
+	};
+	
+	
 
 }
 

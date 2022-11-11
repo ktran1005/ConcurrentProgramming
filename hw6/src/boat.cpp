@@ -1,6 +1,8 @@
 #include <iostream>
 #include "boat.h"
 #include <mutex>
+#include <chrono>
+#include <thread>
 
 
 Boat::Boat(){
@@ -33,10 +35,7 @@ void Boat::loadPeople(Person* Driver,Person* Passenger){
 }
 
 int Boat::isAvailable() {
-    if (atIsland && driver == nullptr)
-        return 1;
-    else
-        return 0;
+    return atIsland;
 }
 
 void Boat::display(int id) {
@@ -45,9 +44,17 @@ void Boat::display(int id) {
     std::cout << "Child " << id << " travel to mainland\n";
 }
 
-void Boat::goToIsland(){
-    // std::cout << "Driver: " << driver->getName() << "\n"; 
+void Boat::goToMainland(){
+    atIsland = false;
+    std::cout << "Boat is traveling from island to mainland  \n"; 
+
     // std::cout << "Passenger: " << passenger->getName() << "\n"; 
+    int time2Wait = std::rand()%4;
+    std::chrono::seconds t = std::chrono::seconds(time2Wait);
+    std::this_thread::sleep_for(t);
+    std::cout << "Boat is traveling from mainland to island  \n"; 
+    std::this_thread::sleep_for(t);
+    atIsland = true;
     return;
 }
 

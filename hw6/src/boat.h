@@ -11,7 +11,7 @@ public:
     ~Boat();
     void summarizeEvent();
     void loadPeople(Person* Driver,Person* Passenger);
-    void goToIsland();
+    void goToMainland();
     int isAvailable();
     void display(int id);
 private:
