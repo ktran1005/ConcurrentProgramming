@@ -9,10 +9,19 @@ Child::~Child(){};
 // 	return "Child "; 
 // }
 
-void Child::display(){
+void Child::display(std::string text){
 	static std::mutex ioLock;
     std::lock_guard<std::mutex> lk(ioLock);
-    std::cout << "Child " << myId << " travel to mainland\n";
+    std::cout << "Child " << myId << " " <<text << "\n";
+	std::cout << text << "\n";
+}
+
+void Child::getOnDriver(){
+	display("got into the driver's seat of the boat.");
+}
+
+void Child::getOnPassenger(){
+	display("got into the passenger seat of the boat.");
 }
 
 void Child::run(){
@@ -20,11 +29,12 @@ void Child::run(){
 	std::unique_lock<std::mutex> lk(*mutex);
 	condVar->wait(lk, [this]{
 		return b->isAvailable();});
-	display();
+	// display();
+	getOnDriver();
 	b->travel();
 	atMainLand = true;
 	lk.unlock();
-	condVar->notify_one();
+	condVar->notify_all();
 	};		
 	
 }

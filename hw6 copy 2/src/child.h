@@ -10,7 +10,9 @@ public:
 	Child(int id, Boat* b, std::mutex* mutx, std::condition_variable* cv);
 	~Child();
 	// std::string getName();
-	void display();
+	void display(std::string text);
+	void getOnDriver();
+	void getOnPassenger();
 	void run();
 };
 

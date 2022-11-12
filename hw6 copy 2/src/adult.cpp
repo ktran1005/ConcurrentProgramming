@@ -12,10 +12,15 @@ Adult::~Adult(){};
 // 	return "Adult "; 
 // }
 
-void Adult::display(){
+void Adult::display(std::string text){
 	static std::mutex ioLock;
     std::lock_guard<std::mutex> lk(ioLock);
-    std::cout << "Adult " << myId << " travel to mainland\n";
+    std::cout << "Adult " << myId << " " << text << "\n";
+}
+
+
+void Adult::getOnPassenger(){
+	display("got into the passenger seat of the boat.");
 }
 
 
@@ -24,10 +29,11 @@ void Adult::run(){
 	std::unique_lock<std::mutex> lk(*mutex);
 	condVar->wait(lk, [this]{
 		return b->isAvailable();});
-	display();
+	// display();
+	getOnPassenger();
 	b->travel();
 	atMainLand = true;
 	lk.unlock();
-	condVar->notify_one();
+	condVar->notify_all();
 	};		
 };

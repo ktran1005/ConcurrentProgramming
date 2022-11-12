@@ -11,7 +11,8 @@ public:
 	Adult(int id, Boat* b, std::mutex* mutx, std::condition_variable* cv);
 	~Adult();
 	// std::string getName();
-	void display();
+	void display(std::string text);
+	void getOnPassenger();
 	void run();
 };
 
