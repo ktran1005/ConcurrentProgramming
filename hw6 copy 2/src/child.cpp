@@ -1,6 +1,6 @@
 #include <iostream>
 #include "child.h"
-Child::Child(int id, Boat* b, std::mutex* mutx, std::condition_variable* cv):Person(id,b,mutx,cv){
+Child::Child(int id, Boat* b, std::mutex* mutx, std::condition_variable* cv, int adult, int child):Person(id,b,mutx,cv, adult, child){
 }
 
 Child::~Child(){};
@@ -30,10 +30,10 @@ void Child::run(){
 	std::unique_lock<std::mutex> lk(*mutex);
 	condVar->wait(lk, [this]{
 		return b->isAvailable();});
-	// display();
 	getOnDriver();
 	b->travel();
-	atMainLand = true;
+	if (totalChild > 0)
+		atMainLand = true;
 	lk.unlock();
 	condVar->notify_all();
 	};		

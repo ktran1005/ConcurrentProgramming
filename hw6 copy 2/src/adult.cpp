@@ -3,7 +3,7 @@
 
 
 
-Adult::Adult(int id, Boat* b, std::mutex* mutx, std::condition_variable* cv):Person(id,b,mutx,cv){
+Adult::Adult(int id, Boat* b, std::mutex* mutx, std::condition_variable* cv, int adult, int child):Person(id,b,mutx,cv, adult, child){
 }
 
 Adult::~Adult(){};

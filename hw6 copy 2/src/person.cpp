@@ -3,13 +3,15 @@
 // #include <stringstream> 
 
 
-Person::Person(int id, Boat* bt, std::mutex* m, std::condition_variable* cv)
+Person::Person(int id, Boat* bt, std::mutex* m, std::condition_variable* cv, int adult, int child)
 {
 	myId = id;
 	b = bt;
 	mutex = m;
 	condVar = cv;
 	atMainLand = false;
+	int totalAdult = adult;
+	int totalChild = child;
 
 }
 

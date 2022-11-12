@@ -11,7 +11,7 @@ class Boat;
 //A person has a name and can wear a hat.
 class Person{
 public:
-	Person(int id, Boat* b, std::mutex* l, std::condition_variable* cv);
+	Person(int id, Boat* b, std::mutex* l, std::condition_variable* cv, int totaldAdult, int totalChild);
 	~Person();
 	int *totalOfAdult;
 	bool atMainLand;
@@ -24,6 +24,8 @@ protected:
 	std::mutex* mutex;
 	std::condition_variable* condVar;
 	int myId;
+	int totalAdult;
+	int totalChild;
 };
 
 
