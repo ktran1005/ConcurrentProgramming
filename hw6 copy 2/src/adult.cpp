@@ -35,11 +35,12 @@ void Adult::run(){
 	std::unique_lock<std::mutex> lk(*mutex);
 	condVar->wait(lk, [this]{
 		return b->isAvailable();});
-	getOnPassenger();
+	if(b->getPassenger() == nullptr){
+		getOnPassenger();
+		*totalAdult -=1;
+		atMainLand=true;
+	}
 	b->travel();
-	atMainLand = true;
-	*totalAdult -=1;
-	// *totalPeople -=1;
 	lk.unlock();
 	condVar->notify_all();
 	};		
