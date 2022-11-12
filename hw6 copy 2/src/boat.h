@@ -10,7 +10,8 @@ public:
     Boat();
     ~Boat();
     void summarizeEvent();
-    void loadPeople(Person* Driver,Person* Passenger);
+    void loadDriver(Person* Driver);
+    void loadPassenger(Person* Passenger);
     void travel();
     int isAvailable();
     // void display(Person* p,int id);

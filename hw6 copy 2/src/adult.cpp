@@ -19,7 +19,13 @@ void Adult::display(std::string text){
 }
 
 
+void Adult::getOnDriver(){
+	b->loadDriver(this);
+	display("got into the driver's seat of the boat.");
+}
+
 void Adult::getOnPassenger(){
+	b->loadPassenger(this);
 	display("got into the passenger seat of the boat.");
 }
 

@@ -17,10 +17,12 @@ void Child::display(std::string text){
 }
 
 void Child::getOnDriver(){
+	b->loadDriver(this);
 	display("got into the driver's seat of the boat.");
 }
 
 void Child::getOnPassenger(){
+	b->loadPassenger(this);
 	display("got into the passenger seat of the boat.");
 }
 

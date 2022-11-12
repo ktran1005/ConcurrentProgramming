@@ -13,6 +13,8 @@ public:
 	// std::string getName();
 	void display(std::string text);
 	void getOnPassenger();
+	void getOnDriver();
+	void getOnPassenger();
 	void run();
 };
 

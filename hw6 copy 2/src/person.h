@@ -13,6 +13,8 @@ class Person{
 public:
 	Person(int id, Boat* b, std::mutex* l, std::condition_variable* cv);
 	~Person();
+	int *totalOfAdult;
+	bool atMainLand;
 	// void display();
 	// virtual void run();
 protected:
@@ -22,8 +24,6 @@ protected:
 	std::mutex* mutex;
 	std::condition_variable* condVar;
 	int myId;
-	bool atMainLand;
-	
 };
 
 

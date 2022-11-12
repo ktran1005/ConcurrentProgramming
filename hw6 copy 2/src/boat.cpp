@@ -28,10 +28,12 @@ void Boat::summarizeEvent(){
         // Times children where the driver: 11
 }
 
-void Boat::loadPeople(Person* Driver,Person* Passenger){
+void Boat::loadDriver(Person* Driver){
     driver = Driver;
-    passenger = Passenger;
+}
 
+void Boat::loadPassenger(Person* Passenger){
+    passenger = Passenger;
 }
 
 int Boat::isAvailable() {
@@ -45,17 +47,19 @@ int Boat::isAvailable() {
 // }
 
 void Boat::travel(){
-    atIsland = false;
-    std::cout << "Boat is traveling from island to mainland  \n"; 
+    if (driver != nullptr && passenger != nullptr)
+        atIsland = false;
+        std::cout << "Boat is traveling from island to mainland  \n"; 
 
-    // std::cout << "Passenger: " << passenger->getName() << "\n"; 
-    int time2Wait = std::rand()%6;
-    std::chrono::seconds t = std::chrono::seconds(time2Wait);
-    std::this_thread::sleep_for(t);
-    std::cout << "Boat is traveling from mainland to island  \n"; 
-    std::this_thread::sleep_for(t);
-    atIsland = true;
-    return;
+        // std::cout << "Passenger: " << passenger->getName() << "\n"; 
+        int time2Wait = std::rand()%6;
+        std::chrono::seconds t = std::chrono::seconds(time2Wait);
+        std::this_thread::sleep_for(t);
+        std::cout << "Boat is traveling from mainland to island  \n"; 
+        std::this_thread::sleep_for(t);
+        atIsland = true;
+        passenger->atMainLand = true;
+        return;
 }
 
 
