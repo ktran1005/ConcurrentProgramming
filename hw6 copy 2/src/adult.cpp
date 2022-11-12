@@ -3,31 +3,10 @@
 
 
 
-Adult::Adult(int id, Boat* b, std::mutex* mutx, std::condition_variable* cv, int *adult, int *people):Person(id,b,mutx,cv, adult, people){
+Adult::Adult(int id, Boat* b, std::mutex* mutx, std::condition_variable* cv, int *adult, int *people):Person("Adult ",id,b,mutx,cv, adult, people){
 }
 
 Adult::~Adult(){};
-
-// std::string Adult::getName(){
-// 	return "Adult "; 
-// }
-
-void Adult::display(std::string text){
-	static std::mutex ioLock;
-    std::lock_guard<std::mutex> lk(ioLock);
-    std::cout << "Adult " << myId << " " << text << "\n";
-}
-
-
-void Adult::getOnDriver(){
-	b->loadDriver(this);
-	display("got into the driver's seat of the boat. Adult");
-}
-
-void Adult::getOnPassenger(){
-	b->loadPassenger(this);
-	display("got into the passenger seat of the boat. Adult");
-}
 
 
 void Adult::run(){

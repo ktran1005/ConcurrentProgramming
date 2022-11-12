@@ -14,8 +14,10 @@ public:
     void loadPassenger(Person* Passenger);
     void travel();
     int isAvailable();
+    void tracking(Person* Driver,Person* Passenger);
     Person* getDriver();
     Person* getPassenger();
+
     
 private:
     int numOfTravel;
@@ -23,6 +25,8 @@ private:
     int numOfTwoChildTrip;
     int numOfChildAdultTrip;
     int numOfOnePersonTrip;
+    int numOfChildDriverTrip;
+    int numOfAdultDriverTrip;
     bool atIsland;
     Person* driver;
     Person* passenger;

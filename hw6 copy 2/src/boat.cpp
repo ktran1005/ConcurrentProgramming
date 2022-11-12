@@ -11,6 +11,8 @@ Boat::Boat(){
     numOfTwoChildTrip = 0;
     numOfChildAdultTrip = 0;
     numOfOnePersonTrip = 0;
+    numOfChildDriverTrip = 0;
+    numOfAdultDriverTrip = 0;
     atIsland = true;
     driver = nullptr;
     passenger = nullptr;
@@ -20,11 +22,12 @@ void Boat::summarizeEvent(){
     std::cout << "Summary of Events \n";
     
     std::cout << "Boat traveled to the mainland: " << numOfTravel << "\n"; 
-    std::cout <<  "Boat returned to the island: " << numOfReturn << "\n";
+    std::cout <<  "Boat returned to the island: " << numOfTravel - 1  << "\n";
     std::cout <<  "Boats with 2 children: " << numOfChildAdultTrip << "\n";
-    std::cout <<  "Boats with 1 child and 1 adult: " << numOfChildAdultTrip << "\n";
+    std::cout <<  "Boats with 1 child and 1 adult: " << numOfTwoChildTrip << "\n";
     std::cout <<  "Boats with only 1 person (child or adult): " << numOfOnePersonTrip << "\n";
-
+    std::cout <<  "Times adults where the driver: " << numOfAdultDriverTrip<< "\n";
+    std::cout <<  "Times children where the driver: " << numOfChildDriverTrip << "\n";
 }
 
 void Boat::loadDriver(Person* Driver){
@@ -49,11 +52,25 @@ Person* Boat::getPassenger() {
 
 
 
-// void Boat::display(Person* p, int id) {
-//     static std::mutex ioLock;
-//     std::lock_guard<std::mutex> lk(ioLock);
-//     std::cout << p->getName() << id << " travel to mainland\n";
-// }
+void Boat::tracking(Person* driver, Person* passenger) {
+    numOfTravel++;
+    if (driver->getRole().compare("Child ") == 0){
+        numOfChildDriverTrip++;
+        if (passenger->getRole().compare("Child ") == 0)
+            numOfTwoChildTrip++;
+        else
+            numOfChildAdultTrip++;
+    }
+    else{
+        numOfAdultDriverTrip++;
+        if (passenger->getRole().compare("Child ") == 0)
+            numOfChildAdultTrip++;
+            
+    }
+
+    if (passenger == nullptr)
+        numOfOnePersonTrip++;
+}
 
 void Boat::travel(){
     if (driver != nullptr && passenger != nullptr)
@@ -63,19 +80,15 @@ void Boat::travel(){
         int time2Wait = std::rand()%5+1;
         std::chrono::seconds t = std::chrono::seconds(time2Wait);
         std::this_thread::sleep_for(t);
-        std::cout << "Boat is traveling from mainland to island  \n"; 
+        std::cout << "Boat is traveling from mainland to island \n\n"; 
         std::this_thread::sleep_for(t);
-        atIsland = true;
-        passenger->atMainLand = true;
-        // if (driver->getTotalPeople() == 2){
-        //     driver->atMainLand = true;
-        //     atIsland = false;
-        // }     
-        int curTotalPeople = driver->getTotalPeople()-1;
-        std::cout <<"People on island: " << curTotalPeople << "\n";
-        driver->setTotalPeople(curTotalPeople);        
+        tracking(driver,passenger);
+        int curTotalPeople = driver->getTotalPeopleOnIsland()-1;
+        driver->setTotalPeopleOnIsLand(curTotalPeople);
         driver = nullptr;
-        passenger = nullptr;
+        passenger = nullptr; 
+        // std::cout <<"People on island: " << curTotalPeople << "\n\n";        
+        atIsland = true;  
     }
 }
 

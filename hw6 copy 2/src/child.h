@@ -9,9 +9,6 @@ class Child: public Person{
 public:
 	Child(int id, Boat* b, std::mutex* mutx, std::condition_variable* cv, int *adult, int *child);
 	~Child();
-	void display(std::string text);
-	void getOnDriver();
-	void getOnPassenger();
 	void run();
 };
 

@@ -3,8 +3,9 @@
 // #include <stringstream> 
 
 
-Person::Person(int id, Boat* bt, std::mutex* m, std::condition_variable* cv, int *adult, int *people)
+Person::Person(std::string r, int id, Boat* bt, std::mutex* m, std::condition_variable* cv, int *adult, int *people)
 {
+	role = r;
 	myId = id;
 	b = bt;
 	mutex = m;
@@ -15,48 +16,35 @@ Person::Person(int id, Boat* bt, std::mutex* m, std::condition_variable* cv, int
 
 }
 
-int Person::getTotalPeople() {
+int Person::getTotalPeopleOnIsland() {
 	return *totalPeople;
 }
 
-void Person::setTotalPeople(int newTotalPeople) {
+void Person::setTotalPeopleOnIsLand(int newTotalPeople) {
 	*totalPeople = newTotalPeople;
 }
-
 
 // Destructor
 Person::~Person(){}
 
-// std::string getName(){
-// 	return "Person ";
-// }
+std::string Person::getRole(){
+	return role;
+};
 
-// void Person::display() {
-//     static std::mutex ioLock;
-//     std::lock_guard<std::mutex> lk(ioLock);
-//     std::cout << "Person " << myId << " travel to mainland\n";
-// }
+void Person::display(std::string text){
+    static std::mutex ioLock;
+    std::lock_guard<std::mutex> lk(ioLock);
+    std::cout << getRole() << myId << " "<< text <<"\n";
+}
 
-// void Person::run(){
-// 	return;
-// }
+void Person::getOnDriver(){
+	b->loadDriver(this);
+	display("got into the driver's seat of the boat.");
+}
 
-// idea: https://www.geeksforgeeks.org/order-constructor-destructor-call-c/
-
-
-
-
-// void Person::run() {
-	// while (trapped) {
-	// std::unique_lock<std::mutex> lk(*lock);
-	// condval->wait(lk, [this]{
-	//  	return b->isAvailable();});
-	// b->display(myId);
-	// b->travel();
-	// trapped = false;
-	// lk.unlock();
-	// condval->notify_one();
-	// };
-// }
+void Person::getOnPassenger(){
+	b->loadPassenger(this);
+	display("got into the passenger seat of the boat.");
+}
 
 
