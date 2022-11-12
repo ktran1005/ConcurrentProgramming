@@ -9,7 +9,8 @@ class Child: public Person{
 public:
 	Child(int id, Boat* b, std::mutex* mutx, std::condition_variable* cv);
 	~Child();
-	std::string getName();
+	// std::string getName();
+	void display();
 	void run();
 };
 

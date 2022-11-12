@@ -13,7 +13,7 @@ public:
     void loadPeople(Person* Driver,Person* Passenger);
     void travel();
     int isAvailable();
-    void display(Person* p,int id);
+    // void display(Person* p,int id);
 private:
     int numOfTravel;
     int numOfReturn;

@@ -10,7 +10,8 @@ class Adult : public Person{
 public:
 	Adult(int id, Boat* b, std::mutex* mutx, std::condition_variable* cv);
 	~Adult();
-	std::string getName();
+	// std::string getName();
+	void display();
 	void run();
 };
 

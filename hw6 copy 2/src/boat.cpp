@@ -11,7 +11,7 @@ Boat::Boat(){
     numOfTwoChildTrip = 0;
     numOfChildAdultTrip = 0;
     numOfOnePersonTrip = 0;
-    atIsland = 1;
+    atIsland = true;
     //driver = nullptr;
     //passenger = nullptr;
 };

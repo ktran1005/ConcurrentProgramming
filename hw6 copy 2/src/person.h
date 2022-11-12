@@ -13,10 +13,10 @@ class Person{
 public:
 	Person(int id, Boat* b, std::mutex* l, std::condition_variable* cv);
 	~Person();
-	std::string getName();
-	void display();
-	virtual void run();
+	// void display();
+	// virtual void run();
 protected:
+	// std::string getName();
 	std::string name;
 	Boat* b;
 	std::mutex* mutex;

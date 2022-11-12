@@ -5,12 +5,18 @@ Child::Child(int id, Boat* b, std::mutex* mutx, std::condition_variable* cv):Per
 
 Child::~Child(){};
 
-std::string Child::getName(){
-	return "Child "; 
+// std::string Child::getName(){
+// 	return "Child "; 
+// }
+
+void Child::display(){
+	static std::mutex ioLock;
+    std::lock_guard<std::mutex> lk(ioLock);
+    std::cout << "Child " << myId << " travel to mainland\n";
 }
-	
+
 void Child::run(){
-	while (atMainLand) {
+	while (!atMainLand) {
 	std::unique_lock<std::mutex> lk(*mutex);
 	condVar->wait(lk, [this]{
 		return b->isAvailable();});

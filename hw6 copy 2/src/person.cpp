@@ -16,19 +16,19 @@ Person::Person(int id, Boat* bt, std::mutex* m, std::condition_variable* cv)
 // Destructor
 Person::~Person(){}
 
-std::string getName(){
-	return "Person ";
-}
+// std::string getName(){
+// 	return "Person ";
+// }
 
-void Person::display() {
-    static std::mutex ioLock;
-    std::lock_guard<std::mutex> lk(ioLock);
-    std::cout << this->getName() << myId << " travel to mainland\n";
-}
+// void Person::display() {
+//     static std::mutex ioLock;
+//     std::lock_guard<std::mutex> lk(ioLock);
+//     std::cout << "Person " << myId << " travel to mainland\n";
+// }
 
-void Person::run(){
-	return;
-}
+// void Person::run(){
+// 	return;
+// }
 
 // idea: https://www.geeksforgeeks.org/order-constructor-destructor-call-c/
 
