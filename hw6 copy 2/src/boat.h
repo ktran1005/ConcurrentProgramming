@@ -14,7 +14,9 @@ public:
     void loadPassenger(Person* Passenger);
     void travel();
     int isAvailable();
-    // void display(Person* p,int id);
+    Person* getDriver();
+    Person* getPassenger();
+    
 private:
     int numOfTravel;
     int numOfReturn;
