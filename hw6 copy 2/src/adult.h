@@ -8,7 +8,7 @@
 
 class Adult : public Person{
 public:
-	Adult(int id, Boat* b, std::mutex* mutx, std::condition_variable* cv, int adult, int child);
+	Adult(int id, Boat* b, std::mutex* mutx, std::condition_variable* cv, int *adult, int *people);
 	~Adult();
 	void display(std::string text);
 	void getOnPassenger();

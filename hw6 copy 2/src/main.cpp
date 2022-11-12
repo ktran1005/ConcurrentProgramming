@@ -11,11 +11,9 @@ int seatAvailable = 2;
 
 
 
-bool processed = true;
-// bool ready = false;
 
 int totalAdult;
-int totalChild;
+int totalPeople;
 int main(int argc, char* argv[]){
 	// if (argc !3) {
 	// 	std::cout << "Invalid Input" << "\n";
@@ -26,7 +24,8 @@ int main(int argc, char* argv[]){
 	
 	// Person* p1 = new Person("Tuong");
 	totalAdult = 2;
-	totalChild = 2;
+	// int &n = totalAdult;
+	totalPeople	 = 4;
 
 	//Make the Locks
 	std::mutex* dockLock = new std::mutex();
@@ -39,10 +38,10 @@ int main(int argc, char* argv[]){
 	Boat* b = new Boat();
 	// Boat* c = new Boat();
 	// Person::seatAvailable = 2;
-	Child* p2 = new Child(0, b, dockLock, dockSignal, totalAdult, totalChild);
-	Child* p3 = new Child(1, b, dockLock, dockSignal, totalAdult, totalChild);
-	Adult* p4 = new Adult(4, b, dockLock, dockSignal, totalAdult, totalChild);
-	Adult* p5 = new Adult(5, b, dockLock, dockSignal, totalAdult, totalChild);
+	Child* p2 = new Child(0, b, dockLock, dockSignal, &totalAdult, &totalPeople);
+	Child* p3 = new Child(1, b, dockLock, dockSignal, &totalAdult, &totalPeople);
+	Adult* p4 = new Adult(4, b, dockLock, dockSignal, &totalAdult, &totalPeople);
+	Adult* p5 = new Adult(5, b, dockLock, dockSignal, &totalAdult, &totalPeople);
 
 	myThreads[0] = std::thread([](Child* c){c->run();},p2);
 	myThreads[1] = std::thread([](Child* c){c->run();},p3);

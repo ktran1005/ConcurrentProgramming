@@ -1,6 +1,6 @@
 #include <iostream>
 #include "child.h"
-Child::Child(int id, Boat* b, std::mutex* mutx, std::condition_variable* cv, int adult, int child):Person(id,b,mutx,cv, adult, child){
+Child::Child(int id, Boat* b, std::mutex* mutx, std::condition_variable* cv, int *adult, int *people):Person(id,b,mutx,cv, adult, people){
 }
 
 Child::~Child(){};
@@ -29,11 +29,21 @@ void Child::run(){
 	while (!atMainLand) {
 	std::unique_lock<std::mutex> lk(*mutex);
 	condVar->wait(lk, [this]{
-		return b->isAvailable();});
-	getOnDriver();
-	b->travel();
-	if (totalChild > 0)
+		return (b->isAvailable());});
+	// std::cout << "total adult: "<<*totalAdult << "\n";
+	bool alreadyGotASeat = false;
+	if (b->getDriver() == nullptr){
+		getOnDriver();
+		alreadyGotASeat = true;
+	}
+	if (*totalAdult == 0 && b->getPassenger() == nullptr && b->getDriver()!= this)
+		getOnPassenger();
+	if (getTotalPeople() == 2)
 		atMainLand = true;
+	
+	b->travel();
+	
+	// atMainLand = true;
 	lk.unlock();
 	condVar->notify_all();
 	};		

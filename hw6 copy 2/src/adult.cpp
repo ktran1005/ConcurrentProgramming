@@ -3,7 +3,7 @@
 
 
 
-Adult::Adult(int id, Boat* b, std::mutex* mutx, std::condition_variable* cv, int adult, int child):Person(id,b,mutx,cv, adult, child){
+Adult::Adult(int id, Boat* b, std::mutex* mutx, std::condition_variable* cv, int *adult, int *people):Person(id,b,mutx,cv, adult, people){
 }
 
 Adult::~Adult(){};
@@ -35,10 +35,11 @@ void Adult::run(){
 	std::unique_lock<std::mutex> lk(*mutex);
 	condVar->wait(lk, [this]{
 		return b->isAvailable();});
-	// display();
 	getOnPassenger();
 	b->travel();
 	atMainLand = true;
+	*totalAdult -=1;
+	// *totalPeople -=1;
 	lk.unlock();
 	condVar->notify_all();
 	};		

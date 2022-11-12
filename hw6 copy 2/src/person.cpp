@@ -3,17 +3,26 @@
 // #include <stringstream> 
 
 
-Person::Person(int id, Boat* bt, std::mutex* m, std::condition_variable* cv, int adult, int child)
+Person::Person(int id, Boat* bt, std::mutex* m, std::condition_variable* cv, int *adult, int *people)
 {
 	myId = id;
 	b = bt;
 	mutex = m;
 	condVar = cv;
 	atMainLand = false;
-	int totalAdult = adult;
-	int totalChild = child;
+	totalAdult = adult;
+	totalPeople = people;
 
 }
+
+int Person::getTotalPeople() {
+	return *totalPeople;
+}
+
+void Person::setTotalPeople(int newTotalPeople) {
+	*totalPeople = newTotalPeople;
+}
+
 
 // Destructor
 Person::~Person(){}
