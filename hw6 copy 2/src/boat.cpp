@@ -38,11 +38,11 @@ int Boat::isAvailable() {
     return atIsland;
 }
 
-void Boat::display(Person* p, int id) {
-    static std::mutex ioLock;
-    std::lock_guard<std::mutex> lk(ioLock);
-    std::cout << p->getName() << id << " travel to mainland\n";
-}
+// void Boat::display(Person* p, int id) {
+//     static std::mutex ioLock;
+//     std::lock_guard<std::mutex> lk(ioLock);
+//     std::cout << p->getName() << id << " travel to mainland\n";
+// }
 
 void Boat::travel(){
     atIsland = false;

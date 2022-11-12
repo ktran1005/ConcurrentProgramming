@@ -13,7 +13,9 @@ class Person{
 public:
 	Person(int id, Boat* b, std::mutex* l, std::condition_variable* cv);
 	~Person();
-	virtual std::string getName();
+	std::string getName();
+	void display();
+	virtual void run();
 protected:
 	std::string name;
 	Boat* b;
@@ -24,22 +26,5 @@ protected:
 	
 };
 
-
-class Adult : public Person{
-public:
-	Adult(int id, Boat* b, std::mutex* mutx, std::condition_variable* cv);
-	~Adult();
-	std::string getName();
-	void run();
-};
-
-
-class Child: public Person{
-public:
-	Child(int id, Boat* b, std::mutex* mutx, std::condition_variable* cv);
-	~Child();
-	std::string getName();
-	void run();
-};
 
 #endif

@@ -1,18 +1,15 @@
 #include <iostream>
-#include "adult.h"
-
-
-
-Adult::Adult(int id, Boat* b, std::mutex* mutx, std::condition_variable* cv):Person(id,b,mutx,cv){
+#include "child.h"
+Child::Child(int id, Boat* b, std::mutex* mutx, std::condition_variable* cv):Person(id,b,mutx,cv){
 }
 
-Adult::~Adult(){};
+Child::~Child(){};
 
-std::string Adult::getName(){
-	return "Adult "; 
+std::string Child::getName(){
+	return "Child "; 
 }
-
-void Adult::run(){
+	
+void Child::run(){
 	while (atMainLand) {
 	std::unique_lock<std::mutex> lk(*mutex);
 	condVar->wait(lk, [this]{
@@ -23,4 +20,5 @@ void Adult::run(){
 	lk.unlock();
 	condVar->notify_one();
 	};		
-};
+	
+}
