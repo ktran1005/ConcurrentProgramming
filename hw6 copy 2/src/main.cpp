@@ -1,5 +1,8 @@
+int seatAvailable = 2;
 #include "boat.h"
-// #include "person.h"
+#include "person.h"
+#include "child.h"
+#include "adult.h"
 #include <iostream>
 #include <string>
 #include <mutex>
@@ -7,7 +10,6 @@
 #include <thread>
 
 
-int seatAvailable = 2;
 
 bool processed = true;
 // bool ready = false;

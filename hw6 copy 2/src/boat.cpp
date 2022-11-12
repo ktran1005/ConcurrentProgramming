@@ -48,10 +48,9 @@ int Boat::isAvailable() {
 
 void Boat::travel(){
     if (driver != nullptr && passenger != nullptr)
+    {
         atIsland = false;
         std::cout << "Boat is traveling from island to mainland  \n"; 
-
-        // std::cout << "Passenger: " << passenger->getName() << "\n"; 
         int time2Wait = std::rand()%6;
         std::chrono::seconds t = std::chrono::seconds(time2Wait);
         std::this_thread::sleep_for(t);
@@ -59,7 +58,10 @@ void Boat::travel(){
         std::this_thread::sleep_for(t);
         atIsland = true;
         passenger->atMainLand = true;
-        return;
+        driver->atMainLand = true;
+        driver = nullptr;
+        passenger = nullptr;
+    }
 }
 
 

@@ -13,7 +13,6 @@ void Child::display(std::string text){
 	static std::mutex ioLock;
     std::lock_guard<std::mutex> lk(ioLock);
     std::cout << "Child " << myId << " " <<text << "\n";
-	std::cout << text << "\n";
 }
 
 void Child::getOnDriver(){
