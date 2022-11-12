@@ -38,17 +38,16 @@ int main(int argc, char* argv[]){
 	Boat* b = new Boat();
 	// Boat* c = new Boat();
 	// Person::seatAvailable = 2;
-	for(int i=0;i<12;i++){
-		Adult* a = new Adult(i-5, b, dockLock, dockSignal, &totalAdult, &totalPeople);
-		myThreads[i] = std::thread([](Adult* a){a->run();},a);
-
-	}
 	for(int i=0;i<5;i++){
 		Child* c = new Child(i, b, dockLock, dockSignal, &totalAdult, &totalPeople);
 		myThreads[i] = std::thread([](Child* c){c->run();},c);
 	}
 
+	for(int i=5;i<12;i++){
+		Adult* a = new Adult(i-5, b, dockLock, dockSignal, &totalAdult, &totalPeople);
+		myThreads[i] = std::thread([](Adult* a){a->run();},a);
 
+	}
 
 	// Child* p3 = new Child(1, b, dockLock, dockSignal, &totalAdult, &totalPeople);
 	// Adult* p4 = new Adult(4, b, dockLock, dockSignal, &totalAdult, &totalPeople);
