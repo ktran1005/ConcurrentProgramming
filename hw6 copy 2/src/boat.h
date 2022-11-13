@@ -16,9 +16,10 @@ public:
     int isAvailable();
     void tracking(Person* Driver,Person* Passenger);
     Person* getDriver();
-    void setDriver();
     Person* getPassenger();
+    Person* getPrevDriver();
     void sleepRand();
+    void display(std::string text);
 
     
 private:
@@ -32,6 +33,7 @@ private:
     bool atIsland;
     Person* driver;
     Person* passenger;
+    Person* prevDriver;
 };
 
 #endif

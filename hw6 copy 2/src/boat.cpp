@@ -30,6 +30,16 @@ void Boat::summarizeEvent(){
     std::cout <<  "Times children where the driver: " << numOfChildDriverTrip << "\n";
 }
 
+//Print Out with a lock
+void Boat::display(std::string text){
+	static std::mutex ioLock;
+	std::lock_guard<std::mutex> lk(ioLock);
+    std::cout << "Boat "
+        << text << "."
+        << std::endl;
+}
+
+
 // Setter to set child as driver
 void Boat::loadDriver(Person* Driver){
     driver = Driver;
@@ -55,9 +65,9 @@ Person* Boat::getPassenger() {
     return passenger;
 }
 
-// reset driver back to null
-void Boat::setDriver() {
-    driver = nullptr;
+// getter to get the previous driver
+Person* Boat::getPrevDriver() {
+    return prevDriver;
 }
 
 // this method checks who are on the boat when traveling from island to mainland
@@ -97,15 +107,20 @@ void Boat::travel(){
     if (driver != nullptr && passenger != nullptr)
     {
         atIsland = false;
+        display("is traveling from island to mainland");
+        sleepRand(); 
+        display("is traveling from mainland to island");
         sleepRand();
-        std::cout << "Boat is traveling from island to mainland." << std::endl; 
-        sleepRand();
-        std::cout << "Boat is traveling from mainland to island" << std::endl; 
         tracking(driver,passenger);
+        passenger->arrive();
         // decrease the number of people on the island
         int curTotalPeople = driver->getTotalPeopleOnIsland()-1;
+        if (curTotalPeople == 1){
+            driver->arrive();
+        }
         driver->setTotalPeopleOnIsLand(curTotalPeople);
         // reset the driver, passenger and atIsland 
+        prevDriver = driver;
         driver = nullptr;
         passenger = nullptr;         
         atIsland = true;  

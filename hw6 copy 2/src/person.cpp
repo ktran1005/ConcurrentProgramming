@@ -53,3 +53,8 @@ void Person::getOnPassenger(){
 }
 
 
+void Person::arrive(){
+	atMainLand = true;
+}
+
+
