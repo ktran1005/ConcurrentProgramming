@@ -81,9 +81,7 @@ void Boat::tracking(Person* driver, Person* passenger) {
         numOfOnePersonTrip++;
 }
 
-// this method will do the travel from island to mainland and vice versa
-// and it only runs when driver and passenger are all set
-// once driver and passenger are taken, it will sleep between 1-4 second demonstrate from island to mainland and vice versa
+// method to sleep between 1-4 seconds
 void Boat::sleepRand() {
     int time2Wait = std::rand()%5+1;
 	std::chrono::seconds t
@@ -92,7 +90,9 @@ void Boat::sleepRand() {
     return;
 }
 
-
+// this method will do the travel from island to mainland and vice versa
+// and it only runs when driver and passenger are all set
+// once driver and passenger are taken, it will sleep between 1-4 second demonstrate from island to mainland and vice versa
 void Boat::travel(){
     if (driver != nullptr && passenger != nullptr)
     {
