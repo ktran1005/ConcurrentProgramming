@@ -98,9 +98,9 @@ void Boat::travel(){
     {
         atIsland = false;
         sleepRand();
-        std::cout << "Boat is traveling from island to mainland.\n"; 
+        std::cout << "Boat is traveling from island to mainland." << std::endl; 
         sleepRand();
-        std::cout << "Boat is traveling from mainland to island.\n\n"; 
+        std::cout << "Boat is traveling from mainland to island" << std::endl; 
         tracking(driver,passenger);
         // decrease the number of people on the island
         int curTotalPeople = driver->getTotalPeopleOnIsland()-1;
