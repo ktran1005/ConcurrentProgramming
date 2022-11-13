@@ -19,6 +19,7 @@ public:
 	void getOnPassenger();
 	std::string getRole();
 	void display(std::string text);
+	void arrive();
 protected:
 	std::string role;
 	int myId;

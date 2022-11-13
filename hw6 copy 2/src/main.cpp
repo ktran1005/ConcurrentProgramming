@@ -52,7 +52,7 @@ int totalPeople;
 
 /**
  The main program will take two command line input. It must be a integer and larger than 0.
- The first input is the number of adults and the second input is the number of children
+ The first input is the number of adults are on the island and the second input is the number of children are on the
  If the user provide a number less than 1 for the first, second argument, error message will be printed out.
  
  * @param argc number of command line arguments, expected value is 3
