@@ -8,7 +8,7 @@
 
 class Boat;
 
-//A person has a name and can wear a hat.
+// this class is base class so child and adult can inherite 
 class Person{
 public:
 	Person(std::string r, int id, Boat* b, std::mutex* l, std::condition_variable* cv, int *totaldAdult, int *totalPeople);

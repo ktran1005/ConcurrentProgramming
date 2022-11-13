@@ -1,3 +1,8 @@
+// Charles Tran
+
+// A child will be a driver if there are still adults on the island
+// otherwise, child can be driver or passenger
+
 #ifndef _CHILD_H_
 #define _CHILD_H_
 #include <string>

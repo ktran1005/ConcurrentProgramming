@@ -1,3 +1,8 @@
+// Charles Tran
+
+// Adult will always be passenger to prevent unsolvable case
+
+
 #ifndef _ADULT_H_
 #define _ADULT_H_
 #include <string>

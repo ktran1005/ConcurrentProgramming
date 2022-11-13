@@ -16,6 +16,7 @@ public:
     int isAvailable();
     void tracking(Person* Driver,Person* Passenger);
     Person* getDriver();
+    void setDriver();
     Person* getPassenger();
 
     

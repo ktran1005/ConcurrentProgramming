@@ -4,7 +4,7 @@
 #include <chrono>
 #include <thread>
 
-
+// constructor
 Boat::Boat(){
     numOfTravel = 0;
     numOfReturn = 0;
@@ -18,9 +18,9 @@ Boat::Boat(){
     passenger = nullptr;
 };
 
+// method to print statistics of the program
 void Boat::summarizeEvent(){
     std::cout << "Summary of Events \n";
-    
     std::cout << "Boat traveled to the mainland: " << numOfTravel << "\n"; 
     std::cout <<  "Boat returned to the island: " << numOfTravel - 1  << "\n";
     std::cout <<  "Boats with 2 children: " << numOfChildAdultTrip << "\n";
@@ -30,28 +30,37 @@ void Boat::summarizeEvent(){
     std::cout <<  "Times children where the driver: " << numOfChildDriverTrip << "\n";
 }
 
+// Setter to set child as driver
 void Boat::loadDriver(Person* Driver){
     driver = Driver;
 }
 
+// Setter to set adult and child as passenger
 void Boat::loadPassenger(Person* Passenger){
     passenger = Passenger;
 }
 
+// check to see if boat is available
 int Boat::isAvailable() {
     return atIsland;
 }
 
+// check who is the driver
 Person* Boat::getDriver() {
     return driver;
 }
 
+// check who is the passenger
 Person* Boat::getPassenger() {
     return passenger;
 }
 
+// reset driver back to null
+void Boat::setDriver() {
+    driver = nullptr;
+}
 
-
+// this method checks who are on the boat when traveling from island to mainland
 void Boat::tracking(Person* driver, Person* passenger) {
     numOfTravel++;
     if (driver->getRole().compare("Child ") == 0){
@@ -72,6 +81,10 @@ void Boat::tracking(Person* driver, Person* passenger) {
         numOfOnePersonTrip++;
 }
 
+// this method will do the travel from island to mainland and vice versa
+// and it only runs when driver and passenger are all set
+// once driver and passenger are taken, it will sleep between 1-4 second demonstrate from island to mainland and vice versa
+
 void Boat::travel(){
     if (driver != nullptr && passenger != nullptr)
     {
@@ -83,11 +96,12 @@ void Boat::travel(){
         std::cout << "Boat is traveling from mainland to island \n\n"; 
         std::this_thread::sleep_for(t);
         tracking(driver,passenger);
+        // decrease the number of people on the island
         int curTotalPeople = driver->getTotalPeopleOnIsland()-1;
         driver->setTotalPeopleOnIsLand(curTotalPeople);
+        // reset the driver, passenger and atIsland 
         driver = nullptr;
-        passenger = nullptr; 
-        // std::cout <<"People on island: " << curTotalPeople << "\n\n";        
+        passenger = nullptr;         
         atIsland = true;  
     }
 }
