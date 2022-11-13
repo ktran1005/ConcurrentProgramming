@@ -18,6 +18,7 @@ public:
     Person* getDriver();
     void setDriver();
     Person* getPassenger();
+    void sleepRand();
 
     
 private:

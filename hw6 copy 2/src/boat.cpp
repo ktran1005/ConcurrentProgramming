@@ -84,17 +84,23 @@ void Boat::tracking(Person* driver, Person* passenger) {
 // this method will do the travel from island to mainland and vice versa
 // and it only runs when driver and passenger are all set
 // once driver and passenger are taken, it will sleep between 1-4 second demonstrate from island to mainland and vice versa
+void Boat::sleepRand() {
+    int time2Wait = std::rand()%5+1;
+	std::chrono::seconds t
+			= std::chrono::seconds(time2Wait);
+	std::this_thread::sleep_for(t);
+    return;
+}
+
 
 void Boat::travel(){
     if (driver != nullptr && passenger != nullptr)
     {
         atIsland = false;
-        std::cout << "Boat is traveling from island to mainland  \n"; 
-        int time2Wait = std::rand()%5+1;
-        std::chrono::seconds t = std::chrono::seconds(time2Wait);
-        std::this_thread::sleep_for(t);
-        std::cout << "Boat is traveling from mainland to island \n\n"; 
-        std::this_thread::sleep_for(t);
+        sleepRand();
+        std::cout << "Boat is traveling from island to mainland.\n"; 
+        sleepRand();
+        std::cout << "Boat is traveling from mainland to island.\n\n"; 
         tracking(driver,passenger);
         // decrease the number of people on the island
         int curTotalPeople = driver->getTotalPeopleOnIsland()-1;
