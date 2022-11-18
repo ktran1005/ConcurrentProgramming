@@ -14,7 +14,7 @@ class Person{
 public:
 	Person(int id, Boat* b, std::mutex* l, std::condition_variable* cv);
 	~Person();
-	// std::string getName();
+	std::string getName();
 	// void addHat(Hat* h);
 	void printAboutMe();
 	void run();
@@ -24,7 +24,7 @@ private:
 	std::mutex* lock;
 	std::condition_variable* condval;
 	int myId;
-	bool trapped;
+
 };
 
 #endif

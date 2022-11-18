@@ -10,19 +10,30 @@ public:
     Boat();
     ~Boat();
     void summarizeEvent();
-    void loadPeople(Person* Driver,Person* Passenger);
-    void goToMainland();
+    void loadDriver(Person* Driver);
+    void loadPassenger(Person* Passenger);
+    void travel();
     int isAvailable();
-    void display(int id);
+    void tracking(Person* Driver,Person* Passenger);
+    Person* getDriver();
+    Person* getPassenger();
+    Person* getPrevDriver();
+    void sleepRand();
+    void display(std::string text);
+
+    
 private:
     int numOfTravel;
     int numOfReturn;
     int numOfTwoChildTrip;
     int numOfChildAdultTrip;
     int numOfOnePersonTrip;
+    int numOfChildDriverTrip;
+    int numOfAdultDriverTrip;
     bool atIsland;
     Person* driver;
     Person* passenger;
+    Person* prevDriver;
 };
 
 #endif

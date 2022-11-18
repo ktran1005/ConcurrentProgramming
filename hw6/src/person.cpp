@@ -3,10 +3,10 @@
 
 
 
-Person::Person(int id, Boat* b, std::mutex* lk, std::condition_variable* cv)
+Person::Person(int id, Boat* bt, std::mutex* lk, std::condition_variable* cv)
 {
 	myId = id;
-	boat = b;
+	b = bt;
 	trapped=true;
 	lock = lk;
 	condval = cv;
@@ -15,28 +15,24 @@ Person::Person(int id, Boat* b, std::mutex* lk, std::condition_variable* cv)
 // Destructor
 Person::~Person(){}
 
-std::string Person::getName(){
-	return name;
-}
 
 void Person::run() {
 	while (trapped) {
-		std::unique_lock<std::mutex> lk(*lock);
-		condval->wait(lk, []{
-			return boat->isAvailable();
-		});
-		boat->display();
-
-	}
+	std::unique_lock<std::mutex> lk(*lock);
+	condval->wait(lk, [this]{
+	 	return b->isAvailable();});
+	b->display(myId);
+	b->goToMainland();
+	trapped = false;
+	// condval->notify_one();
+	};
+	
+	
 
 }
 
 
 void Person::printAboutMe(){
-	std::cout << name;
-	// if(myHat!=nullptr){
-	// 	std::cout << " has a hat with "
-	// 	<< myHat->info();
-	// }
+	std::cout << myId;
 	std::cout << std::endl;
 }
