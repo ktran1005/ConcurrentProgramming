@@ -8,6 +8,7 @@
 #include <queue>
 #include "race.h"
 #include <condition_variable>
+#include <filesystem>
 // bool canStart;
 int main(int argv, char** argc){
 	//Sanity Check on inputs
@@ -20,7 +21,8 @@ int main(int argv, char** argc){
 	// 	std::cout << "Not Enough racers." << std::endl;
 	// }
 
-	int racers = 3;
+	// int racers = 3;
+	int racers = std::thread::hardware_concurrency();
 	//Get ready
 	std::cout << "Starting Race with "
 		<< racers
@@ -36,15 +38,17 @@ int main(int argv, char** argc){
 	bool done = false;
 	bool canStart = false;
 	
+	std::string myDirectory = "/gcc";
+
 	//Make two queues
-	std::queue<char>* charList = new std::queue<char>();
+	std::queue<std::string>* fileList = new std::queue<std::string>();
 	std::queue<std::thread::id>* workers = new std::queue<std::thread::id>();
 	
 	//Start the racers
 
-	T[racers] = std::thread(producer,charList,&done);
+	T[racers] = std::thread(producer,fileList, myDirectory, &done);
 	for(int i=0; i < racers; i++){
-		T[i] = std::thread(worker,sharedCondVar,sharedMutex,charList,&done);
+		T[i] = std::thread(worker,sharedCondVar,sharedMutex,fileList,&done);
 	}
 	//Join Everything
 	for(int i=0; i < racers+1; i++){

@@ -11,19 +11,15 @@
 #include <condition_variable>
 
 //Simulate the Game Master
-void producer(std::queue<char>* chars,bool* donePushingIntoQueue);
+void producer(std::queue<std::string>* filesQueue, std::string dirToSearch,bool* donePushingIntoQueue);
 
 //Simulate one Racer
-void worker(
-	std::condition_variable *cv,
-	std::mutex *mutex,
-	std::queue<char>* chars,
-	bool* donePushingIntoQueue);
+void worker(std::condition_variable *cv, std::mutex *mutex,std::queue<std::string>* files, bool* donePushingIntoQueue);
 	
 //Sleep between 0 and 2 seconds
 void randomSleep();
 
 //Print a Move
-void printChar(char ch);
+void printChar(std::string str);
 
 #endif
