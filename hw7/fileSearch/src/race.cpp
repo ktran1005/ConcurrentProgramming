@@ -44,7 +44,7 @@ void producer(std::queue<std::string>* filesQueue, std::string dirToSearch,bool*
     {
 
         std::filesystem::path file = p.path();
-        std::string fileName = file.filename();
+        // std::string fileName = file.filename();
         std::string extension = file.extension();
         if (extension == ".cc" || extension == ".c" || extension == ".cpp" || extension == ".h" || extension == ".hpp" || extension == ".pl" || extension == ".sh" || extension == ".py" || extension == ".txt")
         {
@@ -59,9 +59,10 @@ void producer(std::queue<std::string>* filesQueue, std::string dirToSearch,bool*
 }
 	
 //Simulate one Racer
-void worker(std::condition_variable *cv, std::mutex *mutex,std::queue<std::string>* files, bool* donePushingIntoQueue)
+void worker(std::condition_variable *cv, std::mutex *mutex,std::queue<std::string>* files, bool* donePushingIntoQueue, std::string target)
 {
 	// while (!canStartApp){};
+	std::ifstream myFile;
 	std::cout << "thread starts\n";
 	while(*donePushingIntoQueue != true || files->size()!=0){
 		std::unique_lock<std::mutex> lk(*mutex);
@@ -74,7 +75,18 @@ void worker(std::condition_variable *cv, std::mutex *mutex,std::queue<std::strin
 		}
 		str = files->front();
 		files->pop();
-		printChar(str);
+		myFile.open(str);
+		if (myFile.is_open()) {
+			std::string line;
+			int i=0;
+			while (getline(myFile, line)) {
+				i++;
+				if (strstr(line.c_str(), target.c_str()))
+					printChar(str, i, line);
+			}
+			myFile.close();
+		}
+		// printChar(str);
 	UNLOCK:
 		lk.unlock();
 		cv->notify_all();
@@ -91,14 +103,12 @@ void randomSleep(){
 }
 
 //Print a Move
-void printChar(std::string str){
+void printChar(std::string str, int i, std::string line){
 	static std::mutex ioLock;
 	std::lock_guard<std::mutex> lk(ioLock);
-
-
-	std::cout << "Thread "
-		<< std::this_thread::get_id()
-		<< " found: "
-		<< str
-		<< std::endl;
+	std::cout << "Thread "<< std::this_thread::get_id() << " found a match." << std::endl;
+	std::cout << "File: " << str << "\n";
+	std::cout << "Line " << i << ": " << line << "\n";
+	std::cout << "--------" << "\n";
+	std::cout << "--------" << "\n";
 }

@@ -39,16 +39,21 @@ int main(int argv, char** argc){
 	bool canStart = false;
 	
 	std::string myDirectory = "/gcc";
+	std::string target = "<thread>";
 
 	//Make two queues
 	std::queue<std::string>* fileList = new std::queue<std::string>();
 	std::queue<std::thread::id>* workers = new std::queue<std::thread::id>();
 	
-	//Start the racers
+	std::cout << "!---- Search Started ----! "<< "\n";
+	std::cout << "Target Folder: " << myDirectory << "\n";
+	std::cout << "Target Text: " << target << "\n";
 
+
+	//Start the racers
 	T[racers] = std::thread(producer,fileList, myDirectory, &done);
 	for(int i=0; i < racers; i++){
-		T[i] = std::thread(worker,sharedCondVar,sharedMutex,fileList,&done);
+		T[i] = std::thread(worker,sharedCondVar,sharedMutex,fileList,&done, target);
 	}
 	//Join Everything
 	for(int i=0; i < racers+1; i++){
