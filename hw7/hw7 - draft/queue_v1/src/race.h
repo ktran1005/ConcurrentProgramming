@@ -8,21 +8,16 @@
 
 #include <queue>
 #include <thread>
+
 //Simulate the Game Master
-void gameMaster(
-	std::condition_variable cv,
-	std::mutex lock,
-	std::queue<char>* chars,
-	std::queue<std::thread::id>* workers,
-	bool* done)
-	
+void producer(std::queue<char>* chars,bool* donePushingIntoQueue);
+
 //Simulate one Racer
-void racer(
-	std::condition_variable cv,
-	std::mutex lock,
+void worker(
+	std::condition_variable *cv,
+	std::mutex *mutex,
 	std::queue<char>* chars,
-	std::queue<std::thread::id>* workers,
-	bool* done);
+	bool* donePushingIntoQueue);
 	
 //Sleep between 0 and 2 seconds
 void randomSleep();
