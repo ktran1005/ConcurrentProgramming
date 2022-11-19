@@ -11,23 +11,30 @@
 #include <filesystem>
 // bool canStart;
 int main(int argv, char** argc){
+
+
 	//Sanity Check on inputs
 	// if(argv!=2){
 	// 	std::cout << "Number of racers required."
 	// 		<< std::endl;
 	// }
+
 	// int temp =atoi(argc[1]);
 	// if(temp < 1){
 	// 	std::cout << "Not Enough racers." << std::endl;
 	// }
 
 	// int racers = 3;
+
+
 	int racers = std::thread::hardware_concurrency();
+
 	//Get ready
 	std::cout << "Starting Race with "
 		<< racers
 		<< " threads."
 		<< std::endl;
+
 	//Make threads
 	std::thread* T = new std::thread[racers+1];
 	
@@ -38,8 +45,10 @@ int main(int argv, char** argc){
 	bool done = false;
 	bool canStart = false;
 	
-	std::string myDirectory = "/gcc";
-	std::string target = "<thread>";
+	// std::string myDirectory = "/gcc";
+	std::string myDirectory = std::filesystem::current_path();
+	myDirectory += "/test_folder"; 
+	std::string target = "thread";
 
 	//Make two queues
 	std::queue<std::string>* fileList = new std::queue<std::string>();

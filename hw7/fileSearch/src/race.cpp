@@ -13,34 +13,11 @@ bool canStartApp = true;
 void producer(std::queue<std::string>* filesQueue, std::string dirToSearch,bool* donePushingIntoQueue)
 {
 
+	// std::string current_directory = std::filesystem::current_path();
+	// current_directory = current_directory + "/SomeLocalDir" + dirToSearch;
+	// std::cout << "The full path is: " << current_directory << "\n";
 
-	// FILE *fp;
-    // char ch;
-    // int n;
-    // // printf("Enter file Name :");
-    // // gets(fname);
-    
-	// char fname[20] = "./bin/file.md"; 
-    // fp=fopen(fname,"r");
-    // if(fp==NULL)
-    // {
-    //     printf("file can't be opened");
-    //     exit(0);
-    // }
-	// std::cout << "open file now\n";
-    // fseek(fp,0,0);
-    // ch=fgetc(fp);
-	
-    // while(ch!=EOF){
-	// 	chars->push(ch);
-    //     ch=fgetc(fp);
-    //     }
-    // fclose(fp);
-	std::string current_directory = std::filesystem::current_path();
-	current_directory = current_directory + "/SomeLocalDir" + dirToSearch;
-	std::cout << "The full path is: " << current_directory << "\n";
-
-	for (const auto &p : std::filesystem::recursive_directory_iterator(current_directory))
+	for (const auto &p : std::filesystem::recursive_directory_iterator(dirToSearch))
     {
 
         std::filesystem::path file = p.path();
@@ -63,7 +40,7 @@ void worker(std::condition_variable *cv, std::mutex *mutex,std::queue<std::strin
 {
 	// while (!canStartApp){};
 	std::ifstream myFile;
-	std::cout << "thread starts\n";
+	// std::cout << "thread starts\n";
 	while(*donePushingIntoQueue != true || files->size()!=0){
 		std::unique_lock<std::mutex> lk(*mutex);
 
