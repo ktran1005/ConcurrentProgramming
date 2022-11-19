@@ -52,6 +52,8 @@ void worker(std::condition_variable *cv, std::mutex *mutex,std::queue<std::strin
 		}
 		str = files->front();
 		files->pop();
+
+
 		myFile.open(str);
 		if (myFile.is_open()) {
 			std::string line;
@@ -63,7 +65,6 @@ void worker(std::condition_variable *cv, std::mutex *mutex,std::queue<std::strin
 			}
 			myFile.close();
 		}
-		// printChar(str);
 	UNLOCK:
 		lk.unlock();
 		cv->notify_all();
