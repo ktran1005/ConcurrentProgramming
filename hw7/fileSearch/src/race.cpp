@@ -31,7 +31,7 @@ void producer(std::queue<std::string>* filesQueue, std::string dirToSearch,bool*
     }
 
 	*donePushingIntoQueue = true;
-	std::cout << "done scanning files\n";
+	// std::cout << "done scanning files\n";
 
 }
 	
@@ -83,9 +83,10 @@ void randomSleep(){
 void printChar(std::string str, int i, std::string line){
 	static std::mutex ioLock;
 	std::lock_guard<std::mutex> lk(ioLock);
+	std::cout << "--------" << "\n";
 	std::cout << "Thread "<< std::this_thread::get_id() << " found a match." << std::endl;
 	std::cout << "File: " << str << "\n";
 	std::cout << "Line " << i << ": " << line << "\n";
 	std::cout << "--------" << "\n";
-	std::cout << "--------" << "\n";
+	
 }

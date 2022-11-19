@@ -10,30 +10,36 @@
 #include <condition_variable>
 #include <filesystem>
 // bool canStart;
-int main(int argv, char** argc){
+int main(int argc, char** argv){
 
 
 	//Sanity Check on inputs
-	// if(argv!=2){
-	// 	std::cout << "Number of racers required."
+	// if (argc  < 2 ){
+	// 	std::cout << "The program needs at least 2 inputs to run the program."
 	// 		<< std::endl;
 	// }
 
-	// int temp =atoi(argc[1]);
-	// if(temp < 1){
-	// 	std::cout << "Not Enough racers." << std::endl;
+	// std::string myDirectory;
+	// if (argc == 2) {
+	// 	myDirectory = std::filesystem::current_path();
 	// }
 
-	// int racers = 3;
+	// if (argc == 3) {
+	// 	myDirectory = std::filesystem::current_path();
+	// 	myDirectory += argv[2];
+	// }
 
+	std::string myDirectory = std::filesystem::current_path();
+	myDirectory += "/test_folder"; 
+	std::string target = "thread";
 
 	int racers = std::thread::hardware_concurrency();
 
 	//Get ready
-	std::cout << "Starting Race with "
-		<< racers
-		<< " threads."
-		<< std::endl;
+	// std::cout << "Starting Race with "
+	// 	<< racers
+	// 	<< " threads."
+	// 	<< std::endl;
 
 	//Make threads
 	std::thread* T = new std::thread[racers+1];
@@ -46,9 +52,9 @@ int main(int argv, char** argc){
 	bool canStart = false;
 	
 	// std::string myDirectory = "/gcc";
-	std::string myDirectory = std::filesystem::current_path();
-	myDirectory += "/test_folder"; 
-	std::string target = "thread";
+	// std::string myDirectory = std::filesystem::current_path();
+	// myDirectory += "/test_folder"; 
+	// std::string target = "thread";
 
 	//Make two queues
 	std::queue<std::string>* fileList = new std::queue<std::string>();
@@ -57,7 +63,8 @@ int main(int argv, char** argc){
 	std::cout << "!---- Search Started ----! "<< "\n";
 	std::cout << "Target Folder: " << myDirectory << "\n";
 	std::cout << "Target Text: " << target << "\n";
-
+	// std::cout << "Target Text: " << argv[2] << "\n";
+	std::cout << "Using a Pool of " << racers << " to search." << "\n";
 
 	//Start the racers
 	T[racers] = std::thread(producer,fileList, myDirectory, &done);
@@ -68,5 +75,8 @@ int main(int argv, char** argc){
 	for(int i=0; i < racers+1; i++){
 		T[i].join();
 	}
+
+	std::cout << "!---- Search Complete ----!" << "\n";
+
 	return 0;
 }
